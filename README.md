@@ -5,7 +5,8 @@ Cosentino, Oberhauser, Abate<br />
 ---------------------------------------------------
 
 -The ipython notebooks contain the experiments to be run<br />
--recombination.py is the library with all the necessary functions,<br />
+-recombination.py is the library with all the code of the Algorithms presented in<br />
+ the cited work<br />
 
 Some general notes:<br />
 -The name of the ipynb files refers directly to the experiment in the cited work.<br />

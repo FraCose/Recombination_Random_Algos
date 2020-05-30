@@ -1,5 +1,5 @@
 ---------------------------------------------------
-THIS REPOSITORY CONTATINS THE ALGORITHMS EXPLAINED IN THE WORK<br />
+This Rep. contains the Algorithms explained in. 
 Cosentino, Oberhauser, Abate<br />
 "A randomized algorithm to reduce the support of discrete measures "<br />
 ---------------------------------------------------

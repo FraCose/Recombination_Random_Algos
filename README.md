@@ -1,15 +1,16 @@
 ---------------------------------------------------
-This Rep. contains the Algorithms explained in<br />
+This Repository contains the Algorithms explained in<br />
 Cosentino, Oberhauser, Abate<br />
 "A randomized algorithm to reduce the support of discrete measures "<br />
 ---------------------------------------------------
 
--The ipython notebooks contain the experiments to be run<br />
+The files are divided in the following way:
+-The ipython notebooks contain the experiments to be run.<br />
 -recombination.py is the library with all the code of the Algorithms presented in<br />
- the cited work<br />
+ the cited work.<br />
 
 Some general notes:<br />
--The name of the ipynb files refers directly to the experiment in the cited work.<br />
+-The names of the ipynb files refer directly to the experiments in the cited work.<br />
 -The last cells of the notebooks produce the pictures of the pdf.<br />
 -To reduce the running time the parameters can be easiliy changed, e.g. decreasing N, n or sample.<br />
 
@@ -20,8 +21,7 @@ It contains the algorithms relative to the reduction of the measure presented in
 see the pdf for more details. In recombination.py we have rewritten in Python the algorithm presented<br />
 in Tchernychova, Lyons "Caratheodory cubature measures", PhD thesis, University of Oxford, 2016.<br />
 Note that we do not consider their studies relative to different trees/data structure,<br />
-due to numerical instability in some cases as declared in the work; another<br />
-reason is that their analysis was focused for specific cases. See the reference for more details.<br />
+read the cited work for more details.<br />
 
 ---------------------------------------------------
 To Run the Experiments - Requested file
@@ -35,7 +35,7 @@ https://github.com/ibramjub/Fast-and-Accurate-Least-Mean-Squares-Solvers<br />
 ---------------------------------------------------
 To Run the Experiments - Datasets
 ---------------------------------------------------
-Please, to run the experiments donwload the following dataset and put them in the Dataset folder:<br />
+To run the experiments, the following dataset need to be donwloaded and saved in the Dataset folder:<br />
 	- 3D_spatial_network.txt -<br />
       https://archive.ics.uci.edu/ml/machine-learning-databases/00246/3D_spatial_network.txt<br />
 	- household_power_consumption.txt -<br />

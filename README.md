@@ -45,5 +45,6 @@ To run the experiments, the following dataset need to be donwloaded and saved in
 ---------------------------------------------------
 Funding
 ---------------------------------------------------
-The authors want to thank The Alan Turing Institute for the financial support given.<br />
+The authors want to thank The Alan Turing Institute and the University of Oxford<br />
+for the financial support given.<br />
 Grant: The Alan Turing Institute, TU/C/000021, under the EPSRC Grant No. EP/N510129/1.<br />

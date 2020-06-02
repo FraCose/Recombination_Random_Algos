@@ -4,15 +4,15 @@ Cosentino, Oberhauser, Abate<br />
 "A randomized algorithm to reduce the support of discrete measures "<br />
 ---------------------------------------------------
 
-The files are divided in the following way:
--The ipython notebooks contain the experiments to be run.<br />
--recombination.py is the library with all the code of the Algorithms presented in<br />
+The files are divided in the following way:<br />
+- The ipython notebooks contain the experiments to be run.<br />
+- recombination.py is the library with all the code of the Algorithms presented in<br />
  the cited work.<br />
 
 Some general notes:<br />
--The names of the ipynb files refer directly to the experiments in the cited work.<br />
--The last cells of the notebooks produce the pictures of the pdf.<br />
--To reduce the running time the parameters can be easiliy changed, e.g. decreasing N, n or sample.<br />
+- The names of the ipynb files refer directly to the experiments in the cited work.<br />
+- The last cells of the notebooks produce the pictures of the pdf.<br />
+- To reduce the running time the parameters can be easiliy changed, e.g. decreasing N, n or sample.<br />
 
 ---------------------------------------------------
 Library - recombination.py

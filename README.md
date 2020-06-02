@@ -36,11 +36,11 @@ https://github.com/ibramjub/Fast-and-Accurate-Least-Mean-Squares-Solvers<br />
 To Run the Experiments - Datasets
 ---------------------------------------------------
 To run the experiments, the following dataset need to be donwloaded and saved in the Dataset folder:<br />
-	- 3D_spatial_network.txt -<br />
-      https://archive.ics.uci.edu/ml/machine-learning-databases/00246/3D_spatial_network.txt<br />
-	- household_power_consumption.txt -<br />
-      https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip<br />
-      (extract the .txt file)<br />
+- 3D_spatial_network.txt -<br />
+https://archive.ics.uci.edu/ml/machine-learning-databases/00246/3D_spatial_network.txt<br />
+- household_power_consumption.txt -<br />
+https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip<br />
+(extract the .txt file)<br />
 
 ---------------------------------------------------
 Funding

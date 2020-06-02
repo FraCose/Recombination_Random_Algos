@@ -12,7 +12,7 @@ The files are divided in the following way:<br />
 Some general notes:<br />
 - The names of the ipynb files refer directly to the experiments in the cited work.<br />
 - The last cells of the notebooks produce the pictures of the pdf.<br />
-- To reduce the running time the parameters can be easiliy changed, e.g. decreasing N, n or sample.<br />
+- To reduce the running time the parameters can be easily changed, e.g. decreasing N, n or sample.<br />
 
 ---------------------------------------------------
 Library - recombination.py
@@ -22,6 +22,14 @@ see the pdf for more details. In recombination.py we have rewritten in Python th
 in Tchernychova, Lyons "Caratheodory cubature measures", PhD thesis, University of Oxford, 2016.<br />
 Note that we do not consider their studies relative to different trees/data structure,<br />
 read the cited work for more details.<br />
+
+----------------------------------------------------
+Special Note to run the experiments
+----------------------------------------------------
+The notebooks "Comparison_random_algos.ipynb", "Comparison_literature_algos.ipynb", "Running_time_ratio.ipynb"<br />
+and "Running_times_vs_n.ipynb" contain multiple experiemnts: symmetric vs non-symmetric.<br />
+You have to comment/uncomment the respective parts of the code as indicated to reproduce the <br />
+wanted experiments. <br />
 
 ---------------------------------------------------
 To Run the Experiments - Requested file

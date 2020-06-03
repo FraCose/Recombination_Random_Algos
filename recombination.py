@@ -7,17 +7,17 @@
 # All the functions recomb_* take as argument the matrix of the points X 
 # Nxn containing the N points in R^n. All the functions return a convex combination 
 # of points and weights of the origin, therefore they require that E[X]=0 respect
-# to the desired probability measure mu, except recomb_log. Moroever, all the functions 
+# to the desired probability measure mu, except recomb_log, recomb_combined. Moroever, all the functions 
 # recomb_* require a maximum number of iterations and there is a possibility to choose
 # an initial basis for the cone with the parameter idx; the only exception again is 
-# represented by the function recomb_log.
+# represented by the function recomb_log, recomb_combined.
 # All the functions recomb_* return w_star, idx_star, x_star, t, ERR, iterations, 
 # eliminated_points. w_star is the vector containtng the weights of the points
 # x_star which represent the soltuion of the recombination problem. idx_star tells us the indices 
 # of x_star in X. t is the running time of the functions, ERR returns 0 if no Errors 
 # have been recognised, iterations returns the number of iterations necessary to find the solution.
 # eliminated points represents the points the algorithm was able to eliminate.
-# As already mentioned the only function that works slightly different is recomb_log.
+# As already mentioned the only function that works slightly different is recomb_log, recomb_combined.
 # 
 # We have partially rewritten the algorithm presented in Tchernychova Lyons, 
 # "Caratheodory cubature measures", PhD thesis, University of Oxford, 2016.
@@ -505,7 +505,7 @@ def recomb_Mor_reset(X, max_iter, idx=[], reset_factor=0, X_sphere = [], DEBUG=F
             print("reset")
 
 ####################################################################
-# recomb_log uses the clusterign paradigm using recomb_Mor_reset
+# recomb_log uses the clustering paradigm using recomb_Mor_reset
 ####################################################################
 
 def recomb_log(X, max_iter=0, mu=0, fact=0,DEBUG=False):
@@ -514,7 +514,7 @@ def recomb_log(X, max_iter=0, mu=0, fact=0,DEBUG=False):
     # mu represents the weights of the points in X, while fact is 
     # a parameter related with the clustering paradigm
 
-    # Note that this is the only function that does not need the 
+    # Note that this function does not need the 
     # barycenter of the point in X (relatively to mu) to be 0
 
     tic = timeit.default_timer()
@@ -527,7 +527,7 @@ def recomb_log(X, max_iter=0, mu=0, fact=0,DEBUG=False):
         fact = 50
     number_of_sets = fact*(n+1)
     
-    if mu==0 or len*(mu)!=N or np.sum(mu)!=1:
+    if np.all(mu==0) or len(mu)!=N or np.any(mu<0):
         mu = np.ones(N)/N
 
     com = np.zeros(n) # Center Of Mass
@@ -633,6 +633,146 @@ def recomb_log(X, max_iter=0, mu=0, fact=0,DEBUG=False):
             return w_star, idx_star, x_star, toc, ERR, np.nan, np.nan
 
 ####################################################################
+# recomb_combined uses the clustering paradigm using both the 
+# Radnomized Algorithm recomb_Mor_NOreset both Tchernychova_Lyons
+####################################################################
+
+def recomb_combined(X, max_iter=0, mu=0, fact=0, DEBUG=False):
+    # It takes X (N x n) and returns the weights w_star and the n+1 points
+    # x_star.
+    # mu represents the weights of the points in X, while fact is 
+    # a parameter related with the clustering paradigm
+
+    # Note that this is function does not need the 
+    # barycenter of the point in X (relatively to mu) to be 0
+
+    tic = timeit.default_timer()
+    N, n = X.shape
+    
+    if max_iter == 0:
+        max_iter = n**4
+
+    if fact == 0:
+        fact = 50
+    number_of_sets = fact*(n+1)
+    
+    if np.all(mu==0) or len(mu)!=N or np.any(mu<0):
+        mu = np.ones(N)/N
+
+    com = np.zeros(n) # Center Of Mass
+    remaining_points = N
+    idx_story = np.arange(N)
+
+    while True:
+        
+        # remaining points at the next step are = to remaining_points/number_of_sets*(n+1)
+
+        numb_points_next_step = int(remaining_points/fact)
+        if numb_points_next_step >= number_of_sets: 
+            number_of_el = int(remaining_points/number_of_sets)
+            idx_next_step = []
+        else:
+            threshold = remaining_points - (number_of_sets - numb_points_next_step) > number_of_sets
+            if threshold:
+                # remaining_points = int(number_of_sets*number_of_sets/(n+1))
+                idx_next_step = idx_story[- (number_of_sets - numb_points_next_step):]
+                idx_story = idx_story[:- (number_of_sets - numb_points_next_step)]
+                remaining_points = len(idx_story)
+                number_of_el = int(remaining_points/number_of_sets)
+                # numb_points_next_step = int(remaining_points/number_of_sets)*(n+1)
+            else:
+                com = np.sum(np.multiply(X[idx_story],mu[idx_story,np.newaxis]),0)
+                w_star, idx_star, x_star, _, ERR, _, _ = recomb_Mor_NOreset(X[idx_story]-com, max_iter, 
+                                                                            [], [], DEBUG, True)
+                if ERR != 0:
+                    #####################################################################
+                    print("Using determiinistic Algorithm")
+                    w_star, idx_star, x_star, _, ERR, _, _  = Tchernychova_Lyons(X[idx_story],mu[idx_story])
+                    w_star = w_star/np.sum(mu[idx_story])
+                    #####################################################################
+                
+                idx_star = idx_story[idx_star]
+
+                toc = timeit.default_timer()-tic
+                return w_star, idx_star, x_star, toc, ERR, np.nan, np.nan
+
+        X_tmp = np.empty((number_of_sets,n))
+        # mu_tmp = np.empty(number_of_sets)
+
+        idx = idx_story[:number_of_el*number_of_sets].reshape(number_of_el,-1)
+        X_tmp = np.multiply(X[idx],mu[idx,np.newaxis]).sum(axis=0)
+        tot_weights = np.sum(mu[idx],0)
+
+        idx_last_part = idx_story[number_of_el*number_of_sets:]
+        X_tmp[-1] += np.multiply(X[idx_last_part],mu[idx_last_part,np.newaxis]).sum(axis=0)
+        tot_weights[-1] += np.sum(mu[idx_last_part],0)
+
+        X_tmp = np.divide(X_tmp,tot_weights[np.newaxis].T)
+        
+        com = np.sum(np.multiply(X_tmp,tot_weights[:,np.newaxis]),0)/np.sum(tot_weights)
+
+        w_star, idx_star, _, _, ERR, _, _ = recomb_Mor_NOreset(X_tmp-com, max_iter, [], [], DEBUG, True)
+        
+        if ERR != 0:
+            #####################################################################
+            print("Using determiinistic Algorithm")
+            w_star, idx_star, _, _, ERR, _, _  = Tchernychova_Lyons(X_tmp,np.copy(tot_weights))
+            w_star = w_star/np.sum(tot_weights)
+            #####################################################################
+        
+        # np.allclose(np.sum(np.multiply(X_tmp[idx_star],w_star[:,np.newaxis]),0)/np.sum(tot_weights),com)
+        # np.sum(tot_weights))
+
+        idx_tomaintain = idx[:,idx_star].reshape(-1)
+        idx_tocancel = np.ones(idx.shape[1]).astype(bool)
+        idx_tocancel[idx_star] = False
+        idx_tocancel = idx[:,idx_tocancel].reshape(-1)
+
+        mu[idx_tocancel] = 0.
+        mu_tmp = np.multiply(mu[idx[:,idx_star]],w_star)
+        mu_tmp = np.divide(mu_tmp,tot_weights[idx_star])
+        mu[idx_tomaintain] = mu_tmp.reshape(-1)*np.sum(tot_weights)
+
+        idx_tmp = np.equal(idx_star,number_of_sets-1)
+        idx_tmp = np.arange(len(idx_tmp))[idx_tmp!=0]
+        #if idx_star contains the last barycenter, whose set could have more points
+        if len(idx_tmp)>0:    
+            mu_tmp = np.multiply(mu[idx_last_part],w_star[idx_tmp])
+            mu_tmp = np.divide(mu_tmp,tot_weights[idx_star[idx_tmp]])
+            mu[idx_last_part] = mu_tmp*np.sum(tot_weights)
+            idx_tomaintain = np.append(idx_tomaintain,idx_last_part)
+        else:
+            idx_tocancel = np.append(idx_tocancel,idx_last_part)
+            mu[idx_last_part] = 0.
+        
+        idx_story = np.copy(idx_tomaintain)
+        idx_story = np.append(idx_story,idx_next_step).astype(int)
+        remaining_points = len(idx_story)
+        # idx_next_step = []
+        # remaining_points = np.sum(mu>0)
+
+        if remaining_points-len(idx_last_part)<=number_of_sets:
+            
+            com = np.sum(np.multiply(X[idx_story],mu[idx_story,np.newaxis]),0)
+            w_star, idx_star, x_star, _, ERR, _, _ = recomb_Mor_NOreset(X[idx_story]-com, max_iter,
+                                                                    [], [], DEBUG, True)
+            if ERR != 0:
+                #####################################################################
+                print("Using determiinistic Algorithm")
+                w_star, idx_star, x_star, _, ERR, _, _  = Tchernychova_Lyons(X[idx_story],np.copy(mu[idx_story]))
+                w_star = w_star/np.sum(mu[idx_story])
+                #####################################################################
+            idx_star = idx_story[idx_star]
+
+            # DEBUG
+            # com_recombined = np.sum(np.multiply(X[idx_star],w_star[:,np.newaxis]),0)
+            # if not np.allclose(com, com_recombined):
+            #     print("error")
+            
+            toc = timeit.default_timer()-tic
+            return w_star, idx_star, x_star, toc, ERR, np.nan, np.nan
+
+####################################################################
 # Tchernychova_Lyons* functions are the algortihms presented in 
 # Tchernychova, Lyons - Caratheodory Cubature Measures, PhD Thesis, 
 #                       Univeristy of Oxford, 2016
@@ -652,7 +792,7 @@ def Tchernychova_Lyons(X, mu=0,DEBUG=False):
 
     number_of_sets = 2*(n+1)
     
-    if mu == 0 or len*(mu) != N or np.sum(mu) != 1:
+    if np.all(mu==0) or len(mu)!=N or np.any(mu<0):
         mu = np.ones(N)/N
 
     remaining_points = N

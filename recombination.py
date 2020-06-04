@@ -306,9 +306,12 @@ def recomb_Mor_NOreset(X, max_iter, idx=[], X_sphere = [], DEBUG=False, HC_parad
             return w_star, idx_star, x_star, t, ERR, iterations, eliminated_points
 
         if iterations > max_iter:
+            ERR, w_star, x_star = 2, w_star*np.nan, x_star*np.nan
             if not HC_paradigm:
                 print("ERROR: NO convergence")
-            ERR, w_star, x_star = 2, w_star*np.nan, x_star*np.nan
+                t = timeit.default_timer()-tic
+                return w_star, idx_star, x_star, t, ERR, iterations, eliminated_points
+            
             t = timeit.default_timer()-tic
             return w_star, idx_star, x_star, t, ERR, iterations, eliminated_points, X_sphere
         
@@ -683,7 +686,7 @@ def recomb_combined(X, max_iter=0, mu=0, fact=0, DEBUG=False):
             else:
                 com = np.sum(np.multiply(X[idx_story],mu[idx_story,np.newaxis]),0)
                 w_star, idx_star, x_star, _, ERR, _, _ = recomb_Mor_NOreset(X[idx_story]-com, max_iter, 
-                                                                            [], [], DEBUG, True)
+                                                                            [], [], DEBUG)
                 if ERR != 0:
                     #####################################################################
                     print("Using determiinistic Algorithm")
@@ -711,7 +714,7 @@ def recomb_combined(X, max_iter=0, mu=0, fact=0, DEBUG=False):
         
         com = np.sum(np.multiply(X_tmp,tot_weights[:,np.newaxis]),0)/np.sum(tot_weights)
 
-        w_star, idx_star, _, _, ERR, _, _ = recomb_Mor_NOreset(X_tmp-com, max_iter, [], [], DEBUG, True)
+        w_star, idx_star, _, _, ERR, _, _ = recomb_Mor_NOreset(X_tmp-com, max_iter, [], [], DEBUG)
         
         if ERR != 0:
             #####################################################################
@@ -755,7 +758,7 @@ def recomb_combined(X, max_iter=0, mu=0, fact=0, DEBUG=False):
             
             com = np.sum(np.multiply(X[idx_story],mu[idx_story,np.newaxis]),0)
             w_star, idx_star, x_star, _, ERR, _, _ = recomb_Mor_NOreset(X[idx_story]-com, max_iter,
-                                                                    [], [], DEBUG, True)
+                                                                    [], [], DEBUG)
             if ERR != 0:
                 #####################################################################
                 print("Using determiinistic Algorithm")

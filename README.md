@@ -55,6 +55,7 @@ https://www.kaggle.com/harlfoxem/housesalesprediction<br />
 ---------------------------------------------------
 Funding
 ---------------------------------------------------
-The authors want to thank The Alan Turing Institute and the University of Oxford<br />
-for the financial support given.<br />
-Grant: The Alan Turing Institute, TU/C/000021, under the EPSRC Grant No. EP/N510129/1.<br />
+The authors want to thank The Alan Turing Institute and the University of Oxford<br /> 
+for the financial support given. FC is supported by The Alan Turing Institute, TU/C/000021,<br />
+under the EPSRC Grant No. EP/N510129/1. HO is supported by the EPSRC grant Datasig<br />
+[EP/S026347/1], The Alan Turing Institute, and the Oxford-Man Institute.

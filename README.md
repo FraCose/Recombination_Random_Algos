@@ -49,6 +49,8 @@ https://archive.ics.uci.edu/ml/machine-learning-databases/00246/3D_spatial_netwo
 - household_power_consumption.txt -<br />
 https://archive.ics.uci.edu/ml/machine-learning-databases/00235/household_power_consumption.zip<br />
 (extract the .txt file)<br />
+- kc_house_data.csv -<br />
+https://www.kaggle.com/harlfoxem/housesalesprediction<br />
 
 ---------------------------------------------------
 Funding

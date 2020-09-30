@@ -2,6 +2,7 @@
 This Repository contains the Algorithms explained in<br />
 Cosentino, Oberhauser, Abate<br />
 "A randomized algorithm to reduce the support of discrete measures "<br />
+NeurIPS 2020
 ---------------------------------------------------
 
 The files are divided in the following way:<br />

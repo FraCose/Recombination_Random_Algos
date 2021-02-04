@@ -534,8 +534,9 @@ def recomb_log(X, max_iter=0, mu=0, fact=0,DEBUG=False):
         mu = np.ones(N)/N
 
     com = np.zeros(n) # Center Of Mass
-    remaining_points = N
     idx_story = np.arange(N)
+    idx_story = idx_story[mu!=0]
+    remaining_points = len(idx_story)
 
     while True:
         
@@ -663,8 +664,9 @@ def recomb_combined(X, max_iter=0, mu=0, fact=0, DEBUG=False):
         mu = np.ones(N)/N
 
     com = np.zeros(n) # Center Of Mass
-    remaining_points = N
     idx_story = np.arange(N)
+    idx_story = idx_story[mu!=0]
+    remaining_points = len(idx_story)
 
     while True:
         
@@ -798,8 +800,9 @@ def Tchernychova_Lyons(X, mu=0,DEBUG=False):
     if np.all(mu==0) or len(mu)!=N or np.any(mu<0):
         mu = np.ones(N)/N
 
-    remaining_points = N
     idx_story = np.arange(N)
+    idx_story = idx_story[mu!=0]
+    remaining_points = len(idx_story)
 
     while True:
         
